@@ -1,0 +1,31 @@
+2026-09-11T05:46:05.295059397Z INFO "Initialized 1 sources: restaurant-db" 
+2026-09-11T05:46:05.295194095Z INFO "Initialized 0 authServices: " 
+2026-09-11T05:46:05.295263319Z INFO "Using Vertex AI backend for Gemini embedding" "gapinc-sandbox" "global" 
+2026-09-11T05:46:05.29541658Z INFO "Initialized 1 embeddingModels: gemini-embedding" 
+2026-09-11T05:46:05.295597841Z INFO "Initialized 4 tools: get-item-details, search-menu-by-description, add-menu-item, search-menu" 
+2026-09-11T05:46:05.295665707Z INFO "Initialized 1 toolsets: default" 
+2026-09-11T05:46:05.295680745Z INFO "Initialized 0 prompts: " 
+2026-09-11T05:46:05.295708548Z INFO "Initialized 1 promptsets: default" 
+2026-09-11T05:46:05.295769577Z WARN "wildcard (`*`) allows all origin to access the resource and is not secure. Use it with cautious for public, non-sensitive data, or during local development. Recommended to use `--allowed-origins` flag" 
+2026-09-11T05:46:05.295814448Z WARN "wildcard (`*`) allows all hosts to access the resource and is not secure. Use it with cautious for public, non-sensitive data, or during local development. Recommended to use `--allowed-hosts` flag to prevent DNS rebinding attacks" 
+2026-09-11T05:46:05.302836496Z INFO "Server ready to serve!" 
+2026-09-11T05:46:50.924672703Z INFO "GET /api/toolset => HTTP 200 (535.312µs)" "http://localhost:5000/api/toolset" "GET" "/api/toolset" "127.0.0.1:35078" "localhost:5000" "http" "HTTP/1.1" 0 "curl/8.5.0" "" 200 "0.000535312s" 3138 
+2026-09-11T05:47:19.510921788Z INFO "POST /api/tool/search-menu/invoke => HTTP 200 (126.374851ms)" "http://localhost:5000/api/tool/search-menu/invoke" "POST" "/api/tool/search-menu/invoke" "127.0.0.1:35110" "localhost:5000" "http" "HTTP/1.1" 54 "curl/8.5.0" "" 200 "0.126374851s" 518 
+2026-09-11T05:53:13.299955798Z INFO "POST /mcp/ => HTTP 200 (527.883µs)" "http://127.0.0.1:5000/mcp/" "POST" "/mcp/" "127.0.0.1:37618" "127.0.0.1:5000" "http" "HTTP/1.1" 219 "Python/3.11 aiohttp/3.14.3" "" 200 "0.000527883s" 260 
+2026-09-11T05:53:13.301293356Z INFO "POST /mcp/ => HTTP 202 (217.811µs)" "http://127.0.0.1:5000/mcp/" "POST" "/mcp/" "127.0.0.1:37618" "127.0.0.1:5000" "http" "HTTP/1.1" 71 "Python/3.11 aiohttp/3.14.3" "" 202 "0.000217811s" 0 
+2026-09-11T05:53:13.303219811Z INFO "POST /mcp/ => HTTP 200 (707.737µs)" "http://127.0.0.1:5000/mcp/" "POST" "/mcp/" "127.0.0.1:37618" "127.0.0.1:5000" "http" "HTTP/1.1" 102 "Python/3.11 aiohttp/3.14.3" "" 200 "0.000707737s" 3193 
+2026-09-11T05:53:15.676175246Z INFO "POST /mcp/ => HTTP 200 (83.1935ms)" "http://127.0.0.1:5000/mcp/" "POST" "/mcp/" "127.0.0.1:37618" "127.0.0.1:5000" "http" "HTTP/1.1" 181 "Python/3.11 aiohttp/3.14.3" "" 200 "0.0831935s" 902 
+2026-09-11T05:53:39.548822295Z INFO "POST /mcp/ => HTTP 200 (369.549µs)" "http://127.0.0.1:5000/mcp/" "POST" "/mcp/" "127.0.0.1:42232" "127.0.0.1:5000" "http" "HTTP/1.1" 102 "Python/3.11 aiohttp/3.14.3" "" 200 "0.000369549s" 3193 
+2026-09-11T05:53:41.32835867Z INFO "POST /mcp/ => HTTP 200 (123.850616ms)" "http://127.0.0.1:5000/mcp/" "POST" "/mcp/" "127.0.0.1:42232" "127.0.0.1:5000" "http" "HTTP/1.1" 183 "Python/3.11 aiohttp/3.14.3" "" 200 "0.123850616s" 606 
+2026-09-11T05:53:59.979068203Z INFO "POST /mcp/ => HTTP 200 (305.084µs)" "http://127.0.0.1:5000/mcp/" "POST" "/mcp/" "127.0.0.1:39646" "127.0.0.1:5000" "http" "HTTP/1.1" 102 "Python/3.11 aiohttp/3.14.3" "" 200 "0.000305084s" 3193 
+2026-09-11T05:54:02.276599934Z INFO "Successfully embedded %d text parameters using model %s" 1 "gemini-embedding-001" 
+2026-09-11T05:54:02.484314602Z INFO "POST /mcp/ => HTTP 200 (731.779961ms)" "http://127.0.0.1:5000/mcp/" "POST" "/mcp/" "127.0.0.1:39646" "127.0.0.1:5000" "http" "HTTP/1.1" 189 "Python/3.11 aiohttp/3.14.3" "" 200 "0.731779961s" 2579 
+2026-09-11T05:54:18.461103015Z INFO "POST /mcp/ => HTTP 200 (414.466µs)" "http://127.0.0.1:5000/mcp/" "POST" "/mcp/" "127.0.0.1:54478" "127.0.0.1:5000" "http" "HTTP/1.1" 102 "Python/3.11 aiohttp/3.14.3" "" 200 "0.000414466s" 3193 
+2026-09-11T05:54:20.377170816Z INFO "Successfully embedded %d text parameters using model %s" 1 "gemini-embedding-001" 
+2026-09-11T05:54:20.541144315Z INFO "POST /mcp/ => HTTP 200 (549.548301ms)" "http://127.0.0.1:5000/mcp/" "POST" "/mcp/" "127.0.0.1:54478" "127.0.0.1:5000" "http" "HTTP/1.1" 200 "Python/3.11 aiohttp/3.14.3" "" 200 "0.549548301s" 2593 
+2026-09-11T05:55:09.153246223Z INFO "POST /mcp/ => HTTP 200 (418.355µs)" "http://127.0.0.1:5000/mcp/" "POST" "/mcp/" "127.0.0.1:38426" "127.0.0.1:5000" "http" "HTTP/1.1" 102 "Python/3.11 aiohttp/3.14.3" "" 200 "0.000418355s" 3193 
+2026-09-11T05:55:12.332335498Z INFO "Successfully embedded %d text parameters using model %s" 1 "gemini-embedding-001" 
+2026-09-11T05:55:12.542045004Z INFO "POST /mcp/ => HTTP 200 (427.326717ms)" "http://127.0.0.1:5000/mcp/" "POST" "/mcp/" "127.0.0.1:38426" "127.0.0.1:5000" "http" "HTTP/1.1" 646 "Python/3.11 aiohttp/3.14.3" "" 200 "0.427326717s" 172 
+2026-09-11T05:55:27.818030818Z INFO "POST /mcp/ => HTTP 200 (364.632µs)" "http://127.0.0.1:5000/mcp/" "POST" "/mcp/" "127.0.0.1:40660" "127.0.0.1:5000" "http" "HTTP/1.1" 102 "Python/3.11 aiohttp/3.14.3" "" 200 "0.000364632s" 3193 
+2026-09-11T05:55:29.482493026Z INFO "Successfully embedded %d text parameters using model %s" 1 "gemini-embedding-001" 
+2026-09-11T05:55:29.648487313Z INFO "POST /mcp/ => HTTP 200 (349.136596ms)" "http://127.0.0.1:5000/mcp/" "POST" "/mcp/" "127.0.0.1:40660" "127.0.0.1:5000" "http" "HTTP/1.1" 203 "Python/3.11 aiohttp/3.14.3" "" 200 "0.349136596s" 2619 

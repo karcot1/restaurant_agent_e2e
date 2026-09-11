@@ -1,0 +1,170 @@
+================================================
+Database Setup
+================================================
+
+[1/5] Creating Cloud SQL instance...
+      Creating instance (takes 5-10 minutes)...
+Creating Cloud SQL instance for POSTGRES_17...
+..........done.
+Created [https://sqladmin.googleapis.com/sql/v1beta4/projects/gapinc-sandbox/instances/restaurant-instance].
+NAME: restaurant-instance
+DATABASE_VERSION: POSTGRES_17
+LOCATION: us-central1-a
+TIER: db-custom-1-3840
+PRIMARY_ADDRESS: 35.238.79.38
+PRIVATE_ADDRESS: -
+STATUS: RUNNABLE
+      ✓ Instance ready
+
+[2/5] Verifying instance state...
+      ✓ Instance is RUNNABLE
+
+[3/5] Granting Vertex AI permissions...
+Updated IAM policy for project [gapinc-sandbox].
+bindings:
+- members:
+  - user:jjaladi@arcotk.altostrat.com
+  role: projects/gapinc-sandbox/roles/customBqReadWriteNoCreate
+- members:
+  - serviceAccount:503274163428-compute@developer.gserviceaccount.com
+  role: roles/aiplatform.admin
+- members:
+  - serviceAccount:service-503274163428@gcp-sa-vertex-rag.iam.gserviceaccount.com
+  role: roles/aiplatform.ragServiceAgent
+- members:
+  - serviceAccount:service-503274163428@gcp-sa-aiplatform-re.iam.gserviceaccount.com
+  role: roles/aiplatform.reasoningEngineServiceAgent
+- members:
+  - serviceAccount:service-503274163428@gcp-sa-aiplatform.iam.gserviceaccount.com
+  role: roles/aiplatform.serviceAgent
+- members:
+  - serviceAccount:p503274163428-zrnvzv@gcp-sa-cloud-sql.iam.gserviceaccount.com
+  role: roles/aiplatform.user
+- members:
+  - user:jjaladi@arcotk.altostrat.com
+  role: roles/alloydb.databaseUser
+- members:
+  - serviceAccount:service-503274163428@gcp-sa-alloydb.iam.gserviceaccount.com
+  role: roles/alloydb.serviceAgent
+- members:
+  - serviceAccount:service-503274163428@gcp-sa-aiplatform-re.iam.gserviceaccount.com
+  role: roles/artifactregistry.reader
+- members:
+  - serviceAccount:service-503274163428@gcp-sa-artifactregistry.iam.gserviceaccount.com
+  role: roles/artifactregistry.serviceAgent
+- members:
+  - serviceAccount:503274163428-compute@developer.gserviceaccount.com
+  - serviceAccount:503274163428@cloudbuild.gserviceaccount.com
+  role: roles/artifactregistry.writer
+- members:
+  - user:luquet@arcotk.altostrat.com
+  role: roles/bigquery.dataEditor
+- members:
+  - serviceAccount:503274163428-compute@developer.gserviceaccount.com
+  role: roles/bigquery.dataViewer
+- members:
+  - serviceAccount:503274163428-compute@developer.gserviceaccount.com
+  - user:jjaladi@arcotk.altostrat.com
+  - user:luquet@arcotk.altostrat.com
+  role: roles/bigquery.jobUser
+- members:
+  - serviceAccount:service-503274163428@gcp-sa-cloudaicompanion.iam.gserviceaccount.com
+  role: roles/cloudaicompanion.serviceAgent
+- members:
+  - user:luquet@arcotk.altostrat.com
+  role: roles/cloudaicompanion.user
+- members:
+  - serviceAccount:503274163428@cloudbuild.gserviceaccount.com
+  role: roles/cloudbuild.builds.builder
+- members:
+  - serviceAccount:service-503274163428@gcp-sa-cloudbuild.iam.gserviceaccount.com
+  role: roles/cloudbuild.serviceAgent
+- members:
+  - user:admin@arcotk.altostrat.com
+  role: roles/cloudsql.admin
+- members:
+  - group:cloud-sql-test-group@arcotk.altostrat.com
+  role: roles/cloudsql.editor
+- members:
+  - group:cloud-sql-test-group@arcotk.altostrat.com
+  - user:admin@arcotk.altostrat.com
+  role: roles/cloudsql.instanceUser
+- members:
+  - serviceAccount:503274163428@cloudservices.gserviceaccount.com
+  role: roles/compute.instanceGroupManagerServiceAgent
+- members:
+  - serviceAccount:service-503274163428@compute-system.iam.gserviceaccount.com
+  role: roles/compute.serviceAgent
+- members:
+  - serviceAccount:service-503274163428@containerregistry.iam.gserviceaccount.com
+  role: roles/containerregistry.ServiceAgent
+- members:
+  - serviceAccount:service-503274163428@gcp-sa-discoveryengine.iam.gserviceaccount.com
+  role: roles/discoveryengine.serviceAgent
+- members:
+  - serviceAccount:503274163428-compute@developer.gserviceaccount.com
+  role: roles/geminidataanalytics.admin
+- members:
+  - serviceAccount:503274163428-compute@developer.gserviceaccount.com
+  role: roles/geminidataanalytics.dataAgentEditor
+- members:
+  - serviceAccount:service-503274163428@gcp-sa-geminidataanalytics.iam.gserviceaccount.com
+  role: roles/geminidataanalytics.serviceAgent
+- members:
+  - serviceAccount:503274163428-compute@developer.gserviceaccount.com
+  role: roles/iam.securityAdmin
+- members:
+  - serviceAccount:503274163428-compute@developer.gserviceaccount.com
+  role: roles/iam.serviceAccountUser
+- members:
+  - user:admin@arcotk.altostrat.com
+  role: roles/logging.admin
+- members:
+  - serviceAccount:503274163428-compute@developer.gserviceaccount.com
+  role: roles/logging.logWriter
+- members:
+  - serviceAccount:service-503274163428@gcp-sa-ns-authz.iam.gserviceaccount.com
+  role: roles/networksecurity.authzServiceAgent
+- members:
+  - serviceAccount:service-503274163428@gcp-sa-notebooks.iam.gserviceaccount.com
+  role: roles/notebooks.serviceAgent
+- members:
+  - user:admin@arcotk.altostrat.com
+  role: roles/owner
+- members:
+  - serviceAccount:service-org-985637374721@gcp-sa-pam.iam.gserviceaccount.com
+  role: roles/privilegedaccessmanager.serviceAgent
+- members:
+  - serviceAccount:service-503274163428@gcp-sa-pubsub.iam.gserviceaccount.com
+  role: roles/pubsub.serviceAgent
+- members:
+  - serviceAccount:503274163428-compute@developer.gserviceaccount.com
+  role: roles/run.admin
+- members:
+  - serviceAccount:service-503274163428@serverless-robot-prod.iam.gserviceaccount.com
+  role: roles/run.serviceAgent
+- members:
+  - serviceAccount:service-503274163428@service-networking.iam.gserviceaccount.com
+  role: roles/servicenetworking.serviceAgent
+- members:
+  - serviceAccount:503274163428-compute@developer.gserviceaccount.com
+  role: roles/storage.admin
+- members:
+  - user:luquet@arcotk.altostrat.com
+  role: roles/viewer
+etag: BwZbLlRTX74=
+version: 1
+      ✓ Permissions granted
+
+[4/5] Creating database...
+Creating Cloud SQL database...
+.done.
+Created database [restaurant_db].
+instance: restaurant-instance
+name: restaurant_db
+project: gapinc-sandbox
+      ✓ Database 'restaurant_db' ready
+
+[5/5] Seeding database and generating embeddings...
+ERROR: {'S': 'ERROR', 'V': 'ERROR', 'C': 'GAV07', 'M': 'Permission denied on the resource.', 'D': 'PermissionDenied: error reading response body from VertexAI: error getting predictions: error: could not fetch predictions after max retries: status code: 403, message "{\\n  \\"error\\": {\\n    \\"code\\": 403,\\n    \\"message\\": \\"Permission \'aiplatform.endpoints.predict\' denied on resource \'//aiplatform.googleapis.com/projects/503274163428/locations/us-central1/publishers/google/models/gemini-embedding-001\' (or it may not exist). Remediate access with this Troubleshooter URL or share it with your administrator - https://console.cloud.google.com/iam-admin/troubleshooter/summary;errorId=CiQwMWEwOGVlZi1iZWRlLTdlMGYtOTU3Mi0wNWQ5OTMyMGM4NTkSWXByb2plY3RzLzUwMzI3NDE2MzQyOC9sb2NhdGlvbnMvdXMtY2VudHJhbDEvcHVibGlzaGVycy9nb29nbGUvbW9kZWxzL2dlbWluaS1lbWJlZGRpbmctMDAx .\\",\\n    \\"status\\": \\"PERMISSION_DENIED\\",\\n    \\"details\\": [\\n      {\\n        \\"@type\\": \\"type.googleapis.com/google.rpc.ErrorInfo\\",\\n        \\"reason\\": \\"IAM_PERMISSION_DENIED\\",\\n        \\"domain\\": \\"aiplatform.googleapis.com\\",\\n        \\"metadata\\": {\\n          \\"error_info_id\\": \\"CiQwMWEwOGVlZi1iZWRlLTdlMGYtOTU3Mi0wNWQ5OTMyMGM4NTkSWXByb2plY3RzLzUwMzI3NDE2MzQyOC9sb2NhdGlvbnMvdXMtY2VudHJhbDEvcHVibGlzaGVycy9nb29nbGUvbW9kZWxzL2dlbWluaS1lbWJlZGRpbmctMDAx\\",\\n          \\"permission\\": \\"aiplatform.endpoints.predict\\",\\n          \\"troubleshooter_url\\": \\"https://console.cloud.google.com/iam-admin/troubleshooter/summary;errorId=CiQwMWEwOGVlZi1iZWRlLTdlMGYtOTU3Mi0wNWQ5OTMyMGM4NTkSWXByb2plY3RzLzUwMzI3NDE2MzQyOC9sb2NhdGlvbnMvdXMtY2VudHJhbDEvcHVibGlzaGVycy9nb29nbGUvbW9kZWxzL2dlbWluaS1lbWJlZGRpbmctMDAx\\",\\n          \\"resource\\": \\"projects/503274163428/locations/us-central1/publishers/google/models/gemini-embedding-001\\"\\n        }\\n      }\\n    ]\\n  }\\n}\\n": error while fetching response from Vertex AI', 'H': 'Verify and set required permissions to secret manager, Vertex AI endpoint and/ or third party models.', 'W': 'SQL statement "SELECT ml_predict_row(FORMAT(\'publishers/google/models/%s\', model_id), json_build_object(\'instances\', json_build_array(json_build_object(\'content\', content))))"\nPL/pgSQL function google_ml._call_vertex_embedding(text,text) line 6 at SQL statement\nPL/pgSQL function embedding(text,text) line 13 at RETURN', 'F': 'google_ml_integration.cc', 'L': '651', 'R': 'ml_predict_row'}
+      ✓ Inserted 15 menu items

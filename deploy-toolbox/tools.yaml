@@ -1,0 +1,142 @@
+# tools.yaml
+
+# --- Data Source ---
+kind: source
+name: restaurant-db
+type: cloud-sql-postgres
+project: ${GOOGLE_CLOUD_PROJECT}
+region: ${REGION}
+instance: ${DB_INSTANCE}
+database: ${DB_NAME}
+user: postgres
+password: ${DB_PASSWORD}
+
+---
+ 
+# --- Tool 1: Search menu items by category and/or cuisine type ---
+kind: tool
+name: search-menu
+type: postgres-sql
+source: restaurant-db
+description: >-
+  Search for menu items by category and/or cuisine type.
+  Use this tool when the user wants to browse menu items
+  by category (e.g., Main Course, Appetizer, Dessert) or find dishes
+  from a specific cuisine. Both parameters accept an
+  empty string to match all values.
+statement: |
+  SELECT name, cuisine_type, category, ingredients, price, dietary_tags, available
+  FROM menu_items
+  WHERE ($1 = '' OR LOWER(category) = LOWER($1))
+  AND ($2 = '' OR LOWER(cuisine_type) LIKE '%' || LOWER($2) || '%')
+  ORDER BY name
+  LIMIT 10
+parameters:
+  - name: category
+    type: string
+    description: "The menu category to filter by (e.g., 'Main Course', 'Appetizer', 'Dessert'). Use empty string for all categories."
+  - name: cuisine_type
+    type: string
+    description: "A cuisine type to search for (partial match, e.g., 'Italian', 'Japanese'). Use empty string for all cuisines."
+
+---
+
+# --- Tool 2: Get full details for a specific menu item ---
+kind: tool
+name: get-item-details
+type: postgres-sql
+source: restaurant-db
+description: >-
+  Get full details for a specific menu item including its description,
+  price, dietary tags, and availability. Use this tool when the
+  user asks about a particular dish by name or cuisine.
+statement: |
+  SELECT name, cuisine_type, category, ingredients, price, dietary_tags, available, description
+  FROM menu_items
+  WHERE LOWER(name) LIKE '%' || LOWER($1) || '%'
+  OR LOWER(cuisine_type) LIKE '%' || LOWER($1) || '%'
+parameters:
+  - name: search_term
+    type: string
+    description: "The dish name or cuisine type to look up (partial match supported)."
+
+---
+ 
+# --- Embedding Model ---
+kind: embeddingModel
+name: gemini-embedding
+type: gemini
+model: gemini-embedding-001
+project: ${GOOGLE_CLOUD_PROJECT}
+location: ${GOOGLE_CLOUD_LOCATION}
+dimension: 3072
+
+---
+ 
+# --- Tool 3: Semantic search by description ---
+kind: tool
+name: search-menu-by-description
+type: postgres-sql
+source: restaurant-db
+description: >-
+  Find menu items that match a natural language description of what the user
+  is looking for. Use this tool when the user describes their ideal dish
+  using flavors, textures, dietary preferences, or cravings rather than a
+  specific category or cuisine. Examples: "I want something spicy and creamy,"
+  "a light vegetarian appetizer," "something rich and chocolatey for dessert."
+statement: |
+  SELECT name, cuisine_type, category, ingredients, price, dietary_tags, description
+  FROM menu_items
+  WHERE description_embedding IS NOT NULL
+  ORDER BY description_embedding <=> $1
+  LIMIT 5
+parameters:
+  - name: search_query
+    type: string
+    description: "A natural language description of the kind of dish the user is looking for."
+    embeddedBy: gemini-embedding
+
+---
+ 
+# --- Tool 4: Add a new menu item with automatic embedding ---
+kind: tool
+name: add-menu-item
+type: postgres-sql
+source: restaurant-db
+description: >-
+  Add a new menu item to the restaurant. Use this tool when a user asks
+  to add a dish that is not currently on the menu.
+statement: |
+  INSERT INTO menu_items (name, cuisine_type, category, ingredients, price, dietary_tags, available, description, description_embedding)
+  VALUES ($1, $2, $3, $4, $5, $6, CAST($7 AS BOOLEAN), $8, $9)
+  RETURNING name, cuisine_type
+parameters:
+  - name: name
+    type: string
+    description: "The dish name (e.g., 'Truffle Mushroom Risotto')."
+  - name: cuisine_type
+    type: string
+    description: "The cuisine type (e.g., 'Italian', 'Japanese', 'Thai')."
+  - name: category
+    type: string
+    description: "The menu category (e.g., 'Main Course', 'Appetizer', 'Dessert')."
+  - name: ingredients
+    type: string
+    description: "Comma-separated list of key ingredients (e.g., 'salmon, miso, ginger')."
+  - name: price
+    type: string
+    description: "The price (e.g., '$24')."
+  - name: dietary_tags
+    type: string
+    description: "Dietary information (e.g., 'Vegetarian, Gluten-Free')."
+  - name: available
+    type: string
+    description: "Whether the dish is currently available (true or false)."
+  - name: description
+    type: string
+    description: "A short description of the dish (2-3 sentences)."
+  - name: description_vector
+    type: string
+    description: "Auto-generated embedding vector for the dish description."
+    valueFromParam: description
+    embeddedBy: gemini-embedding

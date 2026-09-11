@@ -1,0 +1,34 @@
+steps:
+# Docker Build
+- id: 'build'
+  name: 'gcr.io/cloud-builders/docker'
+  dir: 'A2A_example'
+  args: ['build', '-t', 'us-docker.pkg.dev/${PROJECT_ID}/agent-repo/restaurant_agent:$SHORT_SHA', '.']
+
+#Docker Push
+- id: 'push'
+  name: 'gcr.io/cloud-builders/docker'
+  dir: 'A2A_example'
+  args: ['push', 'us-docker.pkg.dev/${PROJECT_ID}/agent-repo/restaurant_agent:$SHORT_SHA']
+
+#Agent Deploy with Terraform
+- id: 'tf-init'
+  name: 'hashicorp/terraform:1.7.0'
+  dir: 'A2A_example/terraform'
+  entrypoint: 'terraform'
+  args: ['init', '-no-color']
+
+- id: 'tf-plan'
+  name: 'hashicorp/terraform:1.7.0'
+  dir: 'A2A_example/terraform'
+  entrypoint: 'terraform'
+  args: ['plan', '-no-color', '-out=tfplan']
+
+- id: 'tf-apply'
+  name: 'hashicorp/terraform:1.7.0'
+  dir: 'A2A_example/terraform'
+  entrypoint: 'terraform'
+  args: ['apply', '-auto-approve', '-no-color', 'tfplan']
+
+options:
+  logging: CLOUD_LOGGING_ONLY

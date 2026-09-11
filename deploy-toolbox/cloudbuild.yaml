@@ -1,0 +1,27 @@
+steps:
+#Toolbox Deploy
+- id: 'build-toolbox'
+  name: 'gcr.io/cloud-builders/docker'
+  dir: 'deploy-toolbox'
+  args: ['build', '-t', 'us-docker.pkg.dev/${PROJECT_ID}/agent-repo/toolbox:$SHORT_SHA', '.']
+
+- id: 'push-toolbox'
+  name: 'gcr.io/cloud-builders/docker'
+  dir: 'deploy-toolbox'
+  args: ['push', 'us-docker.pkg.dev/${PROJECT_ID}/agent-repo/toolbox:$SHORT_SHA', '.']
+
+- id: 'toolbox-cloud-run-service'
+  name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+  dir: 'deploy-toolbox'
+  entrypoint: 'gcloud'
+  args:
+    - 'run'
+    - 'deploy'
+    - 'toolbox-service'
+    - 'image=us-docker.pkg.dev/${PROJECT_ID}/agent-repo/toolbox:$SHORT_SHA'
+    - 'region=us-central1'   
+    - set-env-vars "DB_PASSWORD=$DB_PASSWORD,DB_INSTANCE=$DB_INSTANCE,DB_NAME=$DB_NAME,GOOGLE_CLOUD_PROJECT=$GOOGLE_CLOUD_PROJECT,REGION=$REGION,GOOGLE_CLOUD_LOCATION=$GOOGLE_CLOUD_LOCATION"   
+    - 'allow-unauthenticated'
+
+options:
+  logging: CLOUD_LOGGING_ONLY

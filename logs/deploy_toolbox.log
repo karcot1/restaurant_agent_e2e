@@ -1,0 +1,12 @@
+Building using Dockerfile and deploying container to Cloud Run service [[1mtoolbox-service[m] in project [[1mgapinc-sandbox[m] region [[1mus-central1[m]
+Building and deploying...
+Validating configuration.........done
+Uploading sources.........................................................................................................................................................................done
+Building Container...................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................done
+Setting IAM Policy............warning
+Creating Revision.....................................................................................................................................................................done
+Routing traffic.....done
+Completed with warnings:
+  Setting IAM policy failed, try "gcloud beta run services add-iam-policy-binding --region=us-central1 --member=allUsers --role=roles/run.invoker toolbox-service"
+Service [[1mtoolbox-service[m] revision [[1mtoolbox-service-00002-6ww[m] has been deployed and is serving [1m100[m percent of traffic.
+Service URL: [1mhttps://toolbox-service-503274163428.us-central1.run.app[m

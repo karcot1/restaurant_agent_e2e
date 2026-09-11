@@ -1,0 +1,22 @@
+[project]
+name = "build-agent-adk-toolbox-cloudsql"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "Kash Arcot", email = "KashyapArcot@gmail.com" }
+]
+requires-python = ">=3.11"
+dependencies = [
+    "cloud-sql-python-connector[pg8000]>=1.22.0",
+    "google-adk==1.29.0",
+    "python-dotenv>=1.2.3",
+    "toolbox-adk==1.0.0",
+]
+
+[project.scripts]
+build-agent-adk-toolbox-cloudsql = "build_agent_adk_toolbox_cloudsql:main"
+
+[build-system]
+requires = ["uv_build>=0.12.2,<0.13.0"]
+build-backend = "uv_build"
