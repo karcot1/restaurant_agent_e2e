@@ -11,7 +11,7 @@ from vertexai import agent_engines
 
 app = FastAPI()
 
-config_json = json.load(open("weather_agent/config.json"))
+config_json = json.load(open("restaurant_agent/config.json"))
 PROJECT_ID = config_json["PROJECT_ID"]
 LOCATION = config_json["LOCATION"]
 MODEL_REGION = config_json["MODEL_REGION"]
