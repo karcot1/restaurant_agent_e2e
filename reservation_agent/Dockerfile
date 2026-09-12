@@ -7,6 +7,7 @@ COPY a2a_config.py .
 COPY agent.py .
 COPY executor.py .
 COPY main.py .
+COPY register_a2a_service.py .
 COPY requirements.txt .
 
 RUN pip install -r requirements.txt

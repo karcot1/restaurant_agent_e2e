@@ -21,8 +21,12 @@ PROJECT_ID = os.environ.get("GOOGLE_CLOUD_PROJECT")
 LOCATION = os.environ.get("GOOGLE_CLOUD_LOCATION") or os.environ.get("LOCATION")
 
 # Sync engine id if provided under REASONING_ENGINE_ID
-if not os.environ.get("GOOGLE_CLOUD_AGENT_ENGINE_ID") and os.environ.get("REASONING_ENGINE_ID"):
-    os.environ["GOOGLE_CLOUD_AGENT_ENGINE_ID"] = os.environ["REASONING_ENGINE_ID"]
+REASONING_ENGINE_ID = os.environ.get("GOOGLE_CLOUD_AGENT_ENGINE_ID") or os.environ.get("REASONING_ENGINE_ID")
+if not os.environ.get("GOOGLE_CLOUD_AGENT_ENGINE_ID") and REASONING_ENGINE_ID:
+    os.environ["GOOGLE_CLOUD_AGENT_ENGINE_ID"] = REASONING_ENGINE_ID
+
+if REASONING_ENGINE_ID and PROJECT_ID and LOCATION:
+    agent_card.url = f"https://{LOCATION}-aiplatform.googleapis.com/v1beta1/projects/{PROJECT_ID}/locations/{LOCATION}/reasoningEngines/{REASONING_ENGINE_ID}/a2a"
 
 vertexai.init(project=PROJECT_ID, location=LOCATION)
 
@@ -38,6 +42,18 @@ a2a_agent.set_up()
 @app.get("/healthz")
 async def healthz():
     return {"status": "ok"}
+
+# Mount well-known agent card endpoints across all path prefixes
+@app.get("/.well-known/agent-card.json")
+@app.get("/.well-known/agent.json")
+@app.get("/a2a/.well-known/agent-card.json")
+@app.get("/a2a/.well-known/agent.json")
+@app.get("/api/.well-known/agent-card.json")
+@app.get("/api/.well-known/agent.json")
+@app.get("/api/a2a/.well-known/agent-card.json")
+@app.get("/api/a2a/.well-known/agent.json")
+async def well_known_agent_card():
+    return agent_card.model_dump(exclude_none=True, by_alias=True)
 
 # Mount standard A2A protocol routes across all path prefixes used by Vertex AI proxies
 # Vertex AI Reasoning Engine prefixes incoming requests with /api
