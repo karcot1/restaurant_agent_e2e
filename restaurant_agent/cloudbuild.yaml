@@ -2,11 +2,13 @@ steps:
 # Docker Build
 - id: 'build'
   name: 'gcr.io/cloud-builders/docker'
+  dir: 'restaurant_agent'
   args: ['build', '-t', 'us-docker.pkg.dev/${PROJECT_ID}/agent-repo/restaurant_agent:$SHORT_SHA', '.']
 
 #Docker Push
 - id: 'push'
   name: 'gcr.io/cloud-builders/docker'
+  dir: 'restaurant_agent'
   args: ['push', 'us-docker.pkg.dev/${PROJECT_ID}/agent-repo/restaurant_agent:$SHORT_SHA']
 
 #Agent Deploy with Terraform
@@ -14,7 +16,15 @@ steps:
   name: 'hashicorp/terraform:1.7.0'
   dir: 'terraform'
   entrypoint: 'terraform'
-  args: ['init', '-no-color']
+  args:
+    - 'init' 
+    - '-no-color'
+    - '-var=project_id=${_PROJECT_ID}'
+    - '-var=location=${_LOCATION}'
+    - '-var=image_tag=${SHORT_SHA}'
+    - '-var=agent_name=restaurant_agent'
+    - '-var=agent_display_name=Restaurant Agent'
+    - '-var=agent_description=BYOC Agent for learning about food at restaurants'
 
 - id: 'tf-plan'
   name: 'hashicorp/terraform:1.7.0'
@@ -27,6 +37,9 @@ steps:
     - '-var=project_id=${_PROJECT_ID}'
     - '-var=location=${_LOCATION}'
     - '-var=image_tag=${SHORT_SHA}'
+    - '-var=agent_name=restaurant_agent'
+    - '-var=agent_display_name=Restaurant Agent'
+    - '-var=agent_description=BYOC Agent for learning about food at restaurants'
 
 - id: 'tf-apply'
   name: 'hashicorp/terraform:1.7.0'
