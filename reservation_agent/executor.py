@@ -15,7 +15,10 @@ from google.adk.runners import Runner
 from google.adk.sessions import InMemorySessionService, VertexAiSessionService
 from google.genai import types
 
-from reservation_agent.agent import root_agent as reservation_agent
+try:
+    from reservation_agent.agent import root_agent as reservation_agent
+except ModuleNotFoundError:
+    from agent import root_agent as reservation_agent
 
 
 class ReservationAgentExecutor(AgentExecutor):
