@@ -51,11 +51,16 @@ def _encode_chunk_to_json(chunk):
     return None
 
 async def json_generator(output):
-  async for chunk in output:
-    encoded_chunk = _encode_chunk_to_json(chunk)
-    if encoded_chunk is None:
-      break
-    yield encoded_chunk
+    if hasattr(output, "__aiter__"):
+        async for chunk in output:
+            encoded_chunk = _encode_chunk_to_json(chunk)
+            if encoded_chunk is not None:
+                yield encoded_chunk
+    else:
+        for chunk in output:
+            encoded_chunk = _encode_chunk_to_json(chunk)
+            if encoded_chunk is not None:
+                yield encoded_chunk
 
 async def _invoke_callable_or_raise(invocation_callable, invocation_payload):
   if inspect.iscoroutinefunction(invocation_callable):
