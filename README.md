@@ -110,10 +110,6 @@ restaurant_agent_e2e/
 │   ├── cloudbuild.yaml                 # Cloud Run build and deployment configuration
 │   └── tools.yaml                      # Declarative MCP tool definitions and SQL queries
 │
-├── frontend/                           # Diner-Facing Web Chat UI
-│   ├── Dockerfile                      # Web UI container build
-│   └── main.py                         # FastAPI server proxying chat to Vertex AI Reasoning Engine
-│
 ├── terraform/                          # Infrastructure as Code
 │   ├── main.tf                         # google_vertex_ai_reasoning_engine BYOC definition
 │   ├── variables.tf                    # Configurable parameters (framework, image, display name)
@@ -363,15 +359,3 @@ Send a test reservation task locally:
 ```bash
 python scripts/test_a2a_agent_local.py
 ```
-
----
-
-## Troubleshooting & Key Learnings
-
-| Issue | Cause | Resolution |
-| :--- | :--- | :--- |
-| **Agent Registry shows "Non A2A"** | Looking at the Vertex AI compute runtime entry rather than the Agent Registry Service entry. Runtimes default to `:query` RPCs (`CUSTOM`). | The automated script `register_a2a_service.py` registers an `A2A_AGENT` Service, which appears as **A2A** in the console. |
-| **Cloud Build Step 6 403 Forbidden** | Cloud Build service account lacks permissions to manage Agent Registry services. | Grant `roles/agentregistry.admin` to `<PROJECT_NUMBER>-compute@developer.gserviceaccount.com`. |
-| **404 Not Found on A2A routes** | Vertex AI BYOC reverse proxy prepends `/api` to incoming path requests. | In `reservation_agent/main.py`, routes are mounted across `""`, `"/a2a"`, `"/api"`, and `"/api/a2a"`. |
-| **Missing Starlette/SSE dependencies** | `a2a-sdk` RESTAdapter requires optional streaming and HTTP extras. | Ensure `a2a-sdk[http-server]` and `sse-starlette` are pinned in `reservation_agent/requirements.txt`. |
-| **Gemini 3-family Model Location Error** | Vertex AI Agent Runtime sets `GOOGLE_CLOUD_LOCATION` to `us-central1`, but Gemini 3 requires `global`. | Custom wrapper `GeminiGlobal` / `GlobalGemini` pins `Client(location="global")`. |
