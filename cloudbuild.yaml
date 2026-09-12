@@ -36,8 +36,6 @@ steps:
     - '-auto-approve'
     - '-no-color'
     - 'tfplan'
-    - '-var=project_id=${_PROJECT_ID}'
-    - '-var=location=${_LOCATION}'
 
 options:
   logging: CLOUD_LOGGING_ONLY
