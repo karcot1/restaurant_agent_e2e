@@ -9,14 +9,11 @@ from fastapi import FastAPI, encoders, responses, Request
 from pathlib import Path
 
 import vertexai
-from dotenv import load_dotenv
 from google.genai import types
 from vertexai.preview.reasoning_engines import A2aAgent
 
 from reservation_agent.a2a_config import agent_card
 from reservation_agent.executor import ReservationAgentExecutor
-
-load_dotenv()
 
 app = FastAPI()
 

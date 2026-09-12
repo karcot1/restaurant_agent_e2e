@@ -3,7 +3,6 @@ FROM python:3.11-slim
 WORKDIR /app
 
 COPY __init__.py .
-COPY .env .
 COPY a2a_config.py .
 COPY agent.py .
 COPY executor.py .
