@@ -8,6 +8,7 @@ import vertexai
 from restaurant_agent.agent import root_agent
 from fastapi import FastAPI, encoders, responses, Request
 from vertexai import agent_engines
+from google.adk.sessions import VertexAiSessionService, InMemorySessionService
 
 app = FastAPI()
 
@@ -16,8 +17,21 @@ PROJECT_ID = config_json["PROJECT_ID"]
 LOCATION = config_json["LOCATION"]
 MODEL_REGION = config_json["MODEL_REGION"]
 
+def session_service_builder():
+    engine_id = os.environ.get("GOOGLE_CLOUD_AGENT_ENGINE_ID") or os.environ.get("REASONING_ENGINE_ID")
+    if engine_id:
+        return VertexAiSessionService(
+            project=PROJECT_ID,
+            location=LOCATION,
+            agent_engine_id=engine_id,
+        )
+    return InMemorySessionService()
+
 vertexai.init(project=PROJECT_ID, location=MODEL_REGION)
-adk_app = agent_engines.AdkApp(agent=root_agent)
+adk_app = agent_engines.AdkApp(
+    agent=root_agent,
+    session_service_builder=session_service_builder,
+)
 adk_app.set_up()
 
 @app.get("/")
@@ -54,8 +68,11 @@ async def query(request: Request) -> responses.JSONResponse:
     request_json = await request.json()
     class_method = request_json.get("class_method")
     input_val = request_json.get("input")
-    method = getattr(adk_app, class_method)
-    output = await _invoke_callable_or_raise(method, input_val or {})
+    if class_method == "agent_run":
+        output = list(adk_app.stream_query(**(input_val or {})))
+    else:
+        method = getattr(adk_app, class_method)
+        output = await _invoke_callable_or_raise(method, input_val or {})
     try:
       json_serialized_content = encoders.jsonable_encoder({"output": output})
     except ValueError as encoding_error:

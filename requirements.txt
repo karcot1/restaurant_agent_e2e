@@ -4,3 +4,4 @@ vertexai
 google-cloud-aiplatform[agent_engines,adk]>=1.144
 pydantic
 toolbox-adk==1.0.0
+google-cloud-secret-manager>=2.16.0

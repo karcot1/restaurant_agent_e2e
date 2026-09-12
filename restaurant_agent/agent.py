@@ -1,11 +1,13 @@
 # restaurant_agent/agent.py
 import json
 import random
+import os
+from google.cloud import secretmanager
 from google.adk.agents import LlmAgent
 from google.adk.models.google_llm import Gemini
 from functools import cached_property
 from google.genai import Client
-from toolbox_adk import ToolboxToolset
+from toolbox_adk import ToolboxToolset, CredentialStrategy
 
 # Load config
 llm_config = json.load(open("restaurant_agent/config.json"))
@@ -14,7 +16,22 @@ MODEL = llm_config["MODEL"]
 MODEL_REGION = llm_config["MODEL_REGION"]
 TOOLBOX_URL = llm_config["TOOLBOX_URL"]
 
-toolbox = ToolboxToolset(TOOLBOX_URL)
+def get_secret(secret_id: str, project_id: str = PROJECT_ID, version: str = "latest") -> str:
+    client = secretmanager.SecretManagerServiceClient()
+    name = f"projects/{project_id}/secrets/{secret_id}/versions/{version}"
+    response = client.access_secret_version(request={"name": name})
+    return response.payload.data.decode("UTF-8").strip()
+
+client_id = get_secret("agent_oauth_client_id")
+client_secret = get_secret("agent_oauth_client_secret")
+
+toolbox = ToolboxToolset(
+    server_url=TOOLBOX_URL,
+    credentials=CredentialStrategy.user_identity(
+        client_id=client_id,
+        client_secret=client_secret,
+    ),
+)
 
 # Override Gemini class for global endpoint compatibility
 class GlobalGemini(Gemini):
