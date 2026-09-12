@@ -1,4 +1,5 @@
 # restaurant_agent/agent.py
+import asyncio
 import json
 import random
 import os
@@ -12,6 +13,9 @@ from google.adk.agents.remote_a2a_agent import RemoteA2aAgent
 from google.adk.models.google_llm import Gemini
 from toolbox_adk import ToolboxToolset, CredentialStrategy
 import httpx
+from a2a.client.client import ClientConfig as A2AClientConfig
+from a2a.client.client_factory import ClientFactory as A2AClientFactory
+from a2a.types import TransportProtocol as A2ATransport
 
 # Load config (support both local repo root and container /app)
 config_path = "restaurant_agent/config.json" if os.path.exists("restaurant_agent/config.json") else "config.json"
@@ -63,11 +67,54 @@ class GoogleCloudAuth(httpx.Auth):
         yield request
 
 
-reservation_remote_agent = RemoteA2aAgent(
+class AuthRemoteA2aAgent(RemoteA2aAgent):
+    """RemoteA2aAgent with per-event-loop httpx.AsyncClient and Google Cloud Auth."""
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self._bound_loop = None
+
+    async def _ensure_httpx_client(self) -> httpx.AsyncClient:
+        try:
+            current_loop = asyncio.get_running_loop()
+        except RuntimeError:
+            current_loop = None
+
+        if not self._httpx_client or self._httpx_client.is_closed or self._bound_loop != current_loop:
+            self._httpx_client = httpx.AsyncClient(
+                auth=GoogleCloudAuth(),
+                timeout=httpx.Timeout(timeout=self._timeout),
+            )
+            self._bound_loop = current_loop
+            self._httpx_client_needs_cleanup = True
+            client_config = A2AClientConfig(
+                httpx_client=self._httpx_client,
+                streaming=False,
+                polling=False,
+                supported_transports=[A2ATransport.jsonrpc, A2ATransport.http_json],
+            )
+            self._a2a_client_factory = A2AClientFactory(config=client_config)
+            if self._agent_card:
+                self._a2a_client = self._a2a_client_factory.create(self._agent_card)
+        return self._httpx_client
+
+    async def _ensure_resolved(self) -> None:
+        try:
+            current_loop = asyncio.get_running_loop()
+        except RuntimeError:
+            current_loop = None
+
+        if self._bound_loop != current_loop:
+            self._is_resolved = False
+            self._a2a_client = None
+
+        await super()._ensure_resolved()
+
+
+reservation_remote_agent = AuthRemoteA2aAgent(
     name="reservation_agent",
     description="Handles restaurant table reservations — create, check, and cancel bookings. Delegate to this agent when the user wants to book a table, check a reservation, or cancel a reservation.",
     agent_card=RESERVATION_AGENT_CARD_URL,
-    httpx_client=httpx.AsyncClient(auth=GoogleCloudAuth(), timeout=60),
 )
 
 root_agent = LlmAgent(
