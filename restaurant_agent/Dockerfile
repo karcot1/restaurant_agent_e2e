@@ -2,7 +2,9 @@ FROM python:3.11-slim
 
 WORKDIR /app
 
-COPY restaurant_agent/ /app/restaurant_agent/
+COPY __init__.py .
+COPY agent.py .
+COPY config.json .
 COPY main.py .
 COPY requirements.txt .
 RUN pip install -r requirements.txt
