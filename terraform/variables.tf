@@ -20,3 +20,9 @@ variable "image_tag" {
   description = "The tag of the container image to deploy"
   default     = "latest"
 }
+
+variable "repository_location" {
+  type        = string
+  description = "The region or multi-region of the Artifact Registry repository"
+  default     = "us"
+}

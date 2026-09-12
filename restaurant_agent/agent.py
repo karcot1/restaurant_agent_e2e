@@ -1,17 +1,18 @@
 # restaurant_agent/agent.py
 import json
 import random
-from google.adk.agents import Agent
+from google.adk.agents import LlmAgent
 from google.adk.models.google_llm import Gemini
 from functools import cached_property
 from google.genai import Client
+from toolbox_adk import ToolboxToolset
 
 # Load config
 llm_config = json.load(open("restaurant_agent/config.json"))
 PROJECT_ID = llm_config["PROJECT_ID"]
 MODEL = llm_config["MODEL"]
 MODEL_REGION = llm_config["MODEL_REGION"]
-TOOLBOX_URL = LLM_CONFIG["TOOLBOX_URL"]
+TOOLBOX_URL = llm_config["TOOLBOX_URL"]
 
 toolbox = ToolboxToolset(TOOLBOX_URL)
 

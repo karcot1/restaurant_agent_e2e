@@ -27,7 +27,7 @@ resource "google_vertex_ai_reasoning_engine" "byoc_restaurant_agent" {
     class_methods = jsonencode(local.class_methods)
     agent_framework = "google-adk"
     container_spec {
-      image_uri = "${var.location}-docker.pkg.dev/${var.project_id}/${var.repository_name}/restaurant_agent:latest"
+      image_uri = "${var.repository_location}-docker.pkg.dev/${var.project_id}/${var.repository_name}/restaurant_agent:${var.image_tag}"
     }
   }
 }

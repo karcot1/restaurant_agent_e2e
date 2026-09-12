@@ -18,6 +18,15 @@ MODEL_REGION = config_json["MODEL_REGION"]
 
 vertexai.init(project=PROJECT_ID, location=MODEL_REGION)
 adk_app = agent_engines.AdkApp(agent=root_agent)
+adk_app.set_up()
+
+@app.get("/")
+async def root_health():
+    return {"status": "ok"}
+
+@app.get("/healthz")
+async def healthz():
+    return {"status": "ok"}
 
 def _encode_chunk_to_json(chunk):
   try:

@@ -26,6 +26,7 @@ steps:
     - '-out=tfplan'
     - '-var=project_id=${_PROJECT_ID}'
     - '-var=location=${_LOCATION}'
+    - '-var=image_tag=${SHORT_SHA}'
 
 - id: 'tf-apply'
   name: 'hashicorp/terraform:1.7.0'
