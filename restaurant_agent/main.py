@@ -5,10 +5,14 @@ import os
 from typing import Any, Dict, Optional
 import uvicorn
 import vertexai
-from restaurant_agent.agent import root_agent
 from fastapi import FastAPI, encoders, responses, Request
 from vertexai import agent_engines
 from google.adk.sessions import VertexAiSessionService, InMemorySessionService
+
+try:
+    from restaurant_agent.agent import root_agent
+except ModuleNotFoundError:
+    from agent import root_agent
 
 app = FastAPI()
 
