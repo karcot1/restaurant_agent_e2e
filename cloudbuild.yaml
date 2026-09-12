@@ -20,13 +20,24 @@ steps:
   name: 'hashicorp/terraform:1.7.0'
   dir: 'terraform'
   entrypoint: 'terraform'
-  args: ['plan', '-no-color', '-out=tfplan']
+  args:
+    - 'plan'
+    - '-no-color' 
+    - '-out=tfplan'
+    - '-var=project_id=${_PROJECT_ID}'
+    - '-var=location=${_LOCATION}'
 
 - id: 'tf-apply'
   name: 'hashicorp/terraform:1.7.0'
   dir: 'terraform'
   entrypoint: 'terraform'
-  args: ['apply', '-auto-approve', '-no-color', 'tfplan']
+  args:
+    - 'apply'
+    - '-auto-approve'
+    - '-no-color'
+    - 'tfplan'
+    - '-var=project_id=${_PROJECT_ID}'
+    - '-var=location=${_LOCATION}'
 
 options:
   logging: CLOUD_LOGGING_ONLY
