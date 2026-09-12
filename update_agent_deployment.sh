@@ -16,7 +16,7 @@ RESPONSE=$(curl -s -X PATCH \
   -d '{
     "displayName": "'"${DISPLAY_NAME}"'",
     "spec": {
-      "agentFramework": "custom",
+      "agentFramework": "google-adk",
       "container_spec": {
         "imageUri": "'"${NEW_IMAGE_URI}"'"
       }
