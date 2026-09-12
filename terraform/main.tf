@@ -17,9 +17,9 @@ locals {
 }
 
 # define the resource with the BYOC configuration, set agent_framework to "google-adk" to enable interactive features on the console.
-resource "google_vertex_ai_reasoning_engine" "byoc_weather_agent" {
-  display_name = "byoc_weather_agent_tf"
-  description  = "BYOC weather agent deployed via Terraform"
+resource "google_vertex_ai_reasoning_engine" "byoc_restaurant_agent" {
+  display_name = "byoc_restaurant_agent_tf"
+  description  = "BYOC restaurant agent deployed via Terraform"
   project      = var.project_id
   region       = var.location
 
@@ -27,7 +27,7 @@ resource "google_vertex_ai_reasoning_engine" "byoc_weather_agent" {
     class_methods = jsonencode(local.class_methods)
     agent_framework = "google-adk"
     container_spec {
-      image_uri = "${var.location}-docker.pkg.dev/${var.project_id}/${var.repository_name}/weather-agent-image:${var.image_tag}"
+      image_uri = "${var.location}-docker.pkg.dev/${var.project_id}/${var.repository_name}/restaurant_agent:latest"
     }
   }
 }
