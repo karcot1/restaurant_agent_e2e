@@ -74,7 +74,7 @@ class AuthRemoteA2aAgent(RemoteA2aAgent):
         super().__init__(*args, **kwargs)
         self._bound_loop = None
 
-    async def _ensure_httpx_client(self) -> httpx.AsyncClient:
+    async def _ensure_httpx_client(self, *args, **kwargs) -> httpx.AsyncClient:
         try:
             current_loop = asyncio.get_running_loop()
         except RuntimeError:
@@ -98,7 +98,7 @@ class AuthRemoteA2aAgent(RemoteA2aAgent):
                 self._a2a_client = self._a2a_client_factory.create(self._agent_card)
         return self._httpx_client
 
-    async def _ensure_resolved(self) -> None:
+    async def _ensure_resolved(self, *args, **kwargs):
         try:
             current_loop = asyncio.get_running_loop()
         except RuntimeError:
@@ -108,7 +108,7 @@ class AuthRemoteA2aAgent(RemoteA2aAgent):
             self._is_resolved = False
             self._a2a_client = None
 
-        await super()._ensure_resolved()
+        return await super()._ensure_resolved(*args, **kwargs)
 
 
 reservation_remote_agent = AuthRemoteA2aAgent(
