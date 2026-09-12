@@ -2,16 +2,19 @@ steps:
 # Docker Build
 - id: 'build'
   name: 'gcr.io/cloud-builders/docker'
+  dir: 'restaurant_agent'
   args: ['build', '-t', 'us-docker.pkg.dev/${PROJECT_ID}/agent-repo/restaurant_agent:$SHORT_SHA', '.']
 
 #Docker Push
 - id: 'push'
   name: 'gcr.io/cloud-builders/docker'
+  dir: 'restaurant_agent'
   args: ['push', 'us-docker.pkg.dev/${PROJECT_ID}/agent-repo/restaurant_agent:$SHORT_SHA']
 
 #Register new agent info
 - id: 'update-agent-info'
   name: 'gcr.io/cloud-builders/gcloud'
+  dir: 'restaurant_agent'
   entrypoint: 'bash'
   env:
     - 'TAG=$SHORT_SHA'
