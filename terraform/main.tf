@@ -17,7 +17,7 @@ locals {
 }
 
 # define the resource with the BYOC configuration, set agent_framework to "google-adk" to enable interactive features on the console.
-resource "google_vertex_ai_reasoning_engine" var.agent_name {
+resource "google_vertex_ai_reasoning_engine" "${var.agent_name}" {
   display_name = var.agent_display_name
   description  = var.agent_description
   project      = var.project_id
