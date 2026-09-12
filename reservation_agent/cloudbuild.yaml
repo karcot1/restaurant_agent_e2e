@@ -22,7 +22,7 @@ steps:
     - '-var=project_id=${_PROJECT_ID}'
     - '-var=location=${_LOCATION}'
     - '-var=image_tag=${SHORT_SHA}'
-    - '-var=agent_name=reservation_agent_byoc'
+    - '-var=agent_name=reservation_agent'
     - '-var=agent_display_name=Reservation Agent'
     - '-var=agent_description=BYOC Agent for reserving tables at restaurants'
 
@@ -37,7 +37,7 @@ steps:
     - '-var=project_id=${_PROJECT_ID}'
     - '-var=location=${_LOCATION}'
     - '-var=image_tag=${SHORT_SHA}'
-    - '-var=agent_name=reservation_agent_byoc'
+    - '-var=agent_name=reservation_agent'
     - '-var=agent_display_name=Reservation Agent'
     - '-var=agent_description=BYOC Agent for reserving tables at restaurants'
 

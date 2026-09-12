@@ -1,7 +1,3 @@
 project_id         = "${PROJECT_ID}"
 location           = "${LOCATION}"
 repository_name    = "agent-repo"
-image_tag          = "latest"
-agent_name         = "${AGENT_NAME}"
-agent_display_name = "${AGENT_DISPLAY_NAME}"
-agent_description  = "${AGENT_DESCRIPTION}"
