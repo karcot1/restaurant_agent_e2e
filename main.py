@@ -5,7 +5,7 @@ import os
 from typing import Any, Dict, Optional
 import uvicorn
 import vertexai
-from weather_agent.agent import root_agent
+from restaurant_agent.agent import root_agent
 from fastapi import FastAPI, encoders, responses, Request
 from vertexai import agent_engines
 

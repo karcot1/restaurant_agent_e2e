@@ -7,7 +7,7 @@ from functools import cached_property
 from google.genai import Client
 
 # Load config
-llm_config = json.load(open("weather_agent/config.json"))
+llm_config = json.load(open("restaurant_agent/config.json"))
 PROJECT_ID = llm_config["PROJECT_ID"]
 MODEL = llm_config["MODEL"]
 MODEL_REGION = llm_config["MODEL_REGION"]
