@@ -25,6 +25,7 @@ steps:
     - '-var=agent_name=reservation_agent'
     - '-var=agent_display_name=Reservation Agent'
     - '-var=agent_description=BYOC Agent for reserving tables at restaurants'
+    - '-var=agent_framework=a2a'
 
 - id: 'tf-plan'
   name: 'hashicorp/terraform:1.7.0'
@@ -40,6 +41,7 @@ steps:
     - '-var=agent_name=reservation_agent'
     - '-var=agent_display_name=Reservation Agent'
     - '-var=agent_description=BYOC Agent for reserving tables at restaurants'
+    - '-var=agent_framework=a2a'
 
 - id: 'tf-apply'
   name: 'hashicorp/terraform:1.7.0'

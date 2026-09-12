@@ -25,6 +25,7 @@ steps:
     - '-var=agent_name=restaurant_agent'
     - '-var=agent_display_name=Restaurant Agent'
     - '-var=agent_description=BYOC Agent for learning about food at restaurants'
+    - '-var=agent_framework=google-adk'
 
 - id: 'tf-plan'
   name: 'hashicorp/terraform:1.7.0'
@@ -40,6 +41,7 @@ steps:
     - '-var=agent_name=restaurant_agent'
     - '-var=agent_display_name=Restaurant Agent'
     - '-var=agent_description=BYOC Agent for learning about food at restaurants'
+    - '-var=agent_framework=google-adk'
 
 - id: 'tf-apply'
   name: 'hashicorp/terraform:1.7.0'

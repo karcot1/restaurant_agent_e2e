@@ -41,3 +41,9 @@ variable "agent_description" {
   type        = string
   description = "The description of the agent"
 }
+
+variable "agent_framework" {
+  type        = string
+  description = "The framework of the agent (e.g. google-adk or a2a)"
+  default     = "google-adk"
+}
