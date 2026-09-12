@@ -16,7 +16,9 @@ except ModuleNotFoundError:
 
 app = FastAPI()
 
-config_json = json.load(open("restaurant_agent/config.json"))
+config_path = "restaurant_agent/config.json" if os.path.exists("restaurant_agent/config.json") else "config.json"
+with open(config_path) as f:
+    config_json = json.load(f)
 PROJECT_ID = config_json["PROJECT_ID"]
 LOCATION = config_json["LOCATION"]
 MODEL_REGION = config_json["MODEL_REGION"]
