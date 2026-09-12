@@ -26,3 +26,18 @@ variable "repository_location" {
   description = "The region or multi-region of the Artifact Registry repository"
   default     = "us"
 }
+
+variable "agent_name" {
+  type        = string
+  description = "The name of the agent"
+}
+
+variable "agent_display_name" {
+  type        = string
+  description = "The display name of the agent"
+}
+
+variable "agent_description" {
+  type        = string
+  description = "The description of the agent"
+}
